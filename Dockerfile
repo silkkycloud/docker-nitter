@@ -48,6 +48,8 @@ RUN chown -R nitter:nitter /nitter
 
 USER nitter
 
+EXPOSE 8080
+
 ENTRYPOINT ["/sbin/tini", "--", "/nitter/start.sh"]
 
 STOPSIGNAL SIGTERM
