@@ -31,7 +31,6 @@ RUN apk add --no-cache \
     pcre-dev \
     sqlite-dev \
     tini \
-    curl \
     openssl \
     bash \
     sed
@@ -58,4 +57,5 @@ STOPSIGNAL SIGTERM
 HEALTHCHECK \
     --start-period=15s \
     --interval=1m \
-    CMD curl --fail http://localhost:8080/ || exit 1
+    --timeout=3s \
+    CMD wget --spider --q http://localhost:8080/settings || exit 1
