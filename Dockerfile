@@ -33,7 +33,7 @@ ARG GID
 
 RUN apk add --no-cache \
     pcre-dev \
-    sqlite-dev \\
+    sqlite-dev \
     tini \
     curl \
     openssl \
