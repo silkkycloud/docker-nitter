@@ -1,6 +1,3 @@
-ARG UID=991
-ARG GID=991
-
 ####################################################################################################
 ## Builder
 ####################################################################################################
@@ -49,7 +46,7 @@ COPY ./start.sh /nitter/start.sh
 RUN chmod 777 /plerma/start.sh
 
 # Add non-root user
-RUN adduser -g $GID -u $UID --disabled-password --gecos "" nitter
+RUN adduser --disabled-password --gecos "" --no-create-home nitter
 RUN chown -R nitter:nitter /nitter
 
 USER nitter
