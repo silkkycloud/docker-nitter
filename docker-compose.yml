@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  
+  server:
+    image: ghcr.io/silkkycloud/nitter:latest
+    hostname: nitter
+    networks:
+      - public
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        max_replicas_per_node: 1
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.3'
+          memory: 256M
+    environment:
+      - GEN_HMAC=y
+
+  redis:
+    image: redis:6.2.6-alpine
+    hostname: redis
+    networks:
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 50M
+
+networks:
+  public:
+    external: true
+
+  backend:
+    driver: overlay
+    internal: true
+    driver_opts:
+      encrypted: "true"
+      com.docker.network.driver.mtu: 1450
