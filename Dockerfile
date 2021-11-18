@@ -1,4 +1,3 @@
-
 ARG UID=991
 ARG GID=991
 
@@ -17,7 +16,7 @@ RUN apk add --no-cache \
 
 WORKDIR /nitter
 
-RUN git clone https://github.com/zedeus/nitter.git ./nitter
+RUN git clone https://github.com/zedeus/nitter.git /nitter
 
 RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
     && strip -s nitter \
