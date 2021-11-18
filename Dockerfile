@@ -24,9 +24,6 @@ RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
 ####################################################################################################
 FROM alpine:3.14
 
-ARG UID
-ARG GID
-
 RUN apk add --no-cache \
     pcre-dev \
     sqlite-dev \
