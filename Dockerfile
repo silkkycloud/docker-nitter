@@ -43,7 +43,7 @@ COPY ./nitter.conf /nitter/nitter.conf
 
 # Copy start script
 COPY ./start.sh /nitter/start.sh
-RUN chmod 777 /plerma/start.sh
+RUN chmod 777 /nitter/start.sh
 
 # Add non-root user
 RUN adduser --disabled-password --gecos "" --no-create-home nitter
