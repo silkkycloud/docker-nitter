@@ -1,3 +1,3 @@
 # Nitter
 
-Nitter Dcoker Swarm deployment and image.
+Nitter Docker Swarm deployment and image.
