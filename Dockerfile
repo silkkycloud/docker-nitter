@@ -34,7 +34,8 @@ RUN apk add --no-cache \
 
 WORKDIR /nitter
 
-COPY --from=builder /nitter/nitter .
+COPY --from=builder /nitter/nitter /nitter/start.sh /nitter/nitter.conf ./
+COPY --from=builder /nitter/public ./public
 COPY ./nitter.conf /nitter/nitter.conf
 
 # Copy start script
