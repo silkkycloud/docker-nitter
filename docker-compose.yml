@@ -11,6 +11,9 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+      update_config:
+        failure_action: rollback
+        order: start-first
       resources:
         limits:
           cpus: '2'
