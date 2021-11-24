@@ -4,6 +4,7 @@
 FROM nimlang/nim:alpine as builder
 
 RUN apk add --no-cache \
+    ca-certificates \
     libsass-dev \
     libffi-dev \
     openssl-dev \
@@ -13,7 +14,11 @@ RUN apk add --no-cache \
 
 WORKDIR /nitter
 
-RUN git clone https://github.com/zedeus/nitter.git /nitter
+RUN --mount=type=cache,target=/tmp/git_cache \
+    git clone https://github.com/zedeus/nitter.git /tmp/git_cache/nitter; \
+    cd /tmp/git_cache/nitter \ 
+    && git pull \
+    && cp -r ./ /nitter
 
 RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
     && strip -s nitter \
@@ -25,6 +30,7 @@ RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
 FROM alpine:3.14
 
 RUN apk add --no-cache \
+    ca-certificates \
     pcre-dev \
     sqlite-dev \
     tini \
@@ -42,15 +48,17 @@ COPY ./nitter.conf /nitter/nitter.conf
 COPY ./start.sh /nitter/start.sh
 RUN chmod 777 /nitter/start.sh
 
-# Add non-root user
-RUN adduser --disabled-password --gecos "" --no-create-home nitter
-RUN chown -R nitter:nitter /nitter
+# Add an unprivileged user and set directory permissions
+RUN adduser --disabled-password --gecos "" --no-create-home nitter \ 
+    && chown -R nitter:nitter /nitter
+
+ENTRYPOINT ["/sbin/tini", "--"]
 
 USER nitter
 
-EXPOSE 8080
+CMD ["/nitter/start.sh"]
 
-ENTRYPOINT ["/sbin/tini", "--", "/nitter/start.sh"]
+EXPOSE 8080
 
 STOPSIGNAL SIGTERM
 
