@@ -16,7 +16,7 @@ WORKDIR /nitter
 
 ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.tar.gz
 RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
-    && cp -r /tmp/nitter-master /nitter
+    && cp -r /tmp/nitter-master/. /nitter
 
 RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
     && strip -s nitter \
