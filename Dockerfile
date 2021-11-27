@@ -10,15 +10,14 @@ RUN apk add --no-cache \
     openssl-dev \
     redis \
     openssh-client \
-    git
+    tar
 
 WORKDIR /nitter
 
-RUN --mount=type=cache,target=/tmp/git_cache \
-    git clone https://github.com/zedeus/nitter.git /tmp/git_cache/nitter; \
-    cd /tmp/git_cache/nitter \ 
-    && git pull \
-    && cp -r ./ /nitter
+ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.tar.gz
+
+RUN tar xvfz /tmp/nitter-master.tar.gz \
+    && cp -r /tmp/nitter-master /nitter
 
 RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
     && strip -s nitter \
