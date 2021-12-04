@@ -65,3 +65,11 @@ HEALTHCHECK \
     --interval=1m \
     --timeout=3s \
     CMD wget --spider --q http://localhost:8080/settings || exit 1
+
+# Image metadata
+LABEL org.opencontainers.image.title=Nitter
+LABEL org.opencontainers.image.description="Nitter is a alternative Twitter front-end focused on privacy."
+LABEL org.opencontainers.image.url=https://nitter.silkky.cloud
+LABEL org.opencontainers.image.vendor="Silkky.Cloud"
+LABEL org.opencontainers.image.licenses=Unlicense
+LABEL org.opencontainers.image.source="https://github.com/silkkycloud/docker-nitter"
