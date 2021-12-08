@@ -10,17 +10,31 @@ services:
       - backend
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
+      placement:
+        max_replicas_per_node: 1
       update_config:
         failure_action: rollback
         order: start-first
       resources:
         limits:
-          cpus: '2'
+          cpus: '1'
           memory: 2G
         reservations:
-          cpus: '0.3'
+          cpus: '0.1'
           memory: 256M
+      labels:
+        - "traefik.enable=true"
+        # Router
+        - "traefik.http.routers.nitter.rule=Host(`${HOSTNAME}`)"
+        - "traefik.http.routers.nitter.entrypoints=websecure"
+        - "traefik.http.routers.nitter.tls=true"
+        - "traefik.http.routers.nitter.service=nitter-service"
+        # Service
+        - "traefik.http.services.nitter-service.loadbalancer.server.port=8080"
+        - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie=true"
+        - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie.secure=true"
+        - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie.samesite=strict"
 
   redis:
     image: redis:6.2.6-alpine
