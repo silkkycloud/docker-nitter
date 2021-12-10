@@ -13,6 +13,8 @@ services:
       replicas: 3
       placement:
         max_replicas_per_node: 1
+        constraints:
+          - "node.labels.web_server == true"
       update_config:
         failure_action: rollback
         order: start-first
