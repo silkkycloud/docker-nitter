@@ -1,16 +1,12 @@
 ####################################################################################################
 ## Builder
 ####################################################################################################
-FROM nimlang/nim:alpine AS builder
+FROM nimlang/nim:1.6.2-alpine AS builder
 
 RUN apk add --no-cache \
     ca-certificates \
     libsass-dev \
-    libffi-dev \
-    openssl-dev \
-    redis \
-    openssh-client \
-    tar
+    pcre
 
 WORKDIR /nitter
 
@@ -19,9 +15,9 @@ ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.ta
 RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
     && cp -r /tmp/nitter-master/. /nitter
 
-RUN nimble build -y -d:release --passC:"-flto" --passL:"-flto" \
-    && strip -s nitter \
-    && nimble scss
+RUN nimble build -y -d:danger -d:lto -d:strip \
+    && nimble scss \
+    && nimble md
 
 ####################################################################################################
 ## Final image
@@ -30,12 +26,9 @@ FROM alpine:3.15
 
 RUN apk add --no-cache \
     ca-certificates \
-    pcre-dev \
-    sqlite-dev \
+    pcre \
     tini \
-    openssl \
-    bash \
-    sed
+    bash
 
 WORKDIR /nitter
 
