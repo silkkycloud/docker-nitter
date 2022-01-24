@@ -39,6 +39,8 @@ services:
         - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie.samesite=strict"
     environment:
       - HMAC_KEY=${HMAC_KEY}
+      - HTTP_PROXY="http://tinyproxy:8080"
+      - HTTPS_PROXY="http://tinyproxy:8080"
 
   redis:
     image: redis:6.2.6-alpine
