@@ -36,6 +36,8 @@ services:
         - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie=true"
         - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie.secure=true"
         - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie.samesite=strict"
+    environment:
+      - HMAC_KEY=${HMAC_KEY}
 
   redis:
     image: redis:6.2.6-alpine

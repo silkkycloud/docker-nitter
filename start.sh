@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+if [[ -v $HMAC_KEY ]]; then
+  sed -i "s@secretkey@$HMAC_KEY@g" /nitter/nitter.conf
+else
+  echo "No hmac key!"
+  exit 1;
+fi
 
-hmac=$(openssl rand -base64 32)
-sed -i "s@secretkey@$hmac@g" /nitter/nitter.conf
-
-echo "Giving Redis time to start"
 sleep 2s
 
 exec ./nitter
