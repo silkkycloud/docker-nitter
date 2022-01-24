@@ -28,7 +28,6 @@ RUN apk add --no-cache \
     ca-certificates \
     pcre \
     tini \
-    openssl \
     bash
 
 WORKDIR /nitter
