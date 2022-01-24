@@ -8,6 +8,7 @@ services:
     networks:
       - public
       - backend
+      - proxy_net
     deploy:
       mode: replicated
       replicas: 3
@@ -57,6 +58,8 @@ services:
 
 networks:
   public:
+    external: true
+  proxy_net:
     external: true
 
   backend:
