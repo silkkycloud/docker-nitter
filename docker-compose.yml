@@ -31,7 +31,10 @@ services:
         - "traefik.http.routers.nitter.rule=Host(`${HOSTNAME}`)"
         - "traefik.http.routers.nitter.entrypoints=websecure"
         - "traefik.http.routers.nitter.tls=true"
+        - "traefik.http.routers.nitter.middlewares=nitter-headers"
         - "traefik.http.routers.nitter.service=nitter-service"
+        # Middleware
+        - "traefik.http.middlewares.nitter-headers.headers.framedeny=true"
         # Service
         - "traefik.http.services.nitter-service.loadbalancer.server.port=8080"
         - "traefik.http.services.nitter-service.loadbalancer.sticky.cookie=true"
