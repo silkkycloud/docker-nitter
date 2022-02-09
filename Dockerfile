@@ -15,7 +15,7 @@ ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.ta
 RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
     && cp -r /tmp/nitter-master/. /nitter
 
-RUN nimble build -y -d:danger -d:lto -d:strip \
+RUN nimble build -d:danger -d:lto -d:strip \
     && nimble scss \
     && nimble md
 
@@ -41,7 +41,7 @@ COPY ./start.sh /nitter/start.sh
 RUN chmod 777 /nitter/start.sh
 
 # Add an unprivileged user and set directory permissions
-RUN adduser --disabled-password --gecos "" --no-create-home nitter \ 
+RUN adduser --disabled-password --gecos "" --no-create-home nitter \
     && chown -R nitter:nitter /nitter
 
 ENTRYPOINT ["/sbin/tini", "--"]
