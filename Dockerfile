@@ -15,6 +15,8 @@ ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.ta
 RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
     && cp -r /tmp/nitter-master/. /nitter
 
+RUN nimble install -y --depsOnly
+
 RUN nimble build -d:danger -d:lto -d:strip \
     && nimble scss \
     && nimble md
