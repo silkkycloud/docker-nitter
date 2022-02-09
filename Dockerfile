@@ -13,9 +13,11 @@ WORKDIR /nitter
 # TODO: Fix Nitter version detection by using Git here.
 ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.tar.gz
 RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
-    && cp -r /tmp/nitter-master/. /nitter
+    && cp -r /tmp/nitter-master/nitter.nimble /nitter
 
 RUN nimble install -y --depsOnly
+
+RUN cp -r /tmp/nitter-master/. /nitter
 
 RUN nimble build -d:danger -d:lto -d:strip \
     && nimble scss \
