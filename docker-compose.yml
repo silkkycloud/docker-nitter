@@ -51,6 +51,9 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+      placement:
+        constraints:
+          - "node.labels.web_server == true"
       resources:
         limits:
           cpus: '0.5'
