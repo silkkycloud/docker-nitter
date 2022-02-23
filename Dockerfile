@@ -16,8 +16,6 @@ RUN git clone https://github.com/zedeus/nitter.git /nitter
 
 RUN nimble install -y --depsOnly
 
-RUN cp -r /tmp/nitter-master/. /nitter
-
 RUN nimble build -d:danger -d:lto -d:strip \
     && nimble scss \
     && nimble md
