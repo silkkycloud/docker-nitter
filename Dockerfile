@@ -6,14 +6,13 @@ FROM nimlang/nim:1.6.2-alpine-regular AS builder
 RUN apk add --no-cache \
     ca-certificates \
     libsass-dev \
-    pcre
+    pcre \
+    git
 
 WORKDIR /nitter
 
-# TODO: Fix Nitter version detection by using Git here.
-ADD https://github.com/zedeus/nitter/archive/master.tar.gz /tmp/nitter-master.tar.gz
-RUN tar xvfz /tmp/nitter-master.tar.gz -C /tmp \
-    && cp -r /tmp/nitter-master/nitter.nimble /nitter
+ADD https://api.github.com/repos/zedeus/nitter/git/refs/head /cachebreak
+RUN git clone https://github.com/zedeus/nitter.git /nitter
 
 RUN nimble install -y --depsOnly
 
@@ -31,8 +30,7 @@ FROM alpine:3.15
 RUN apk add --no-cache \
     ca-certificates \
     pcre \
-    tini \
-    bash
+    tini
 
 WORKDIR /nitter
 
