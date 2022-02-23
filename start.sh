@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [[ -v HMAC_KEY ]]; then
   sed -i "s@secretkey@$HMAC_KEY@g" /nitter/nitter.conf

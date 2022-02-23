@@ -28,7 +28,8 @@ FROM alpine:3.15
 RUN apk add --no-cache \
     ca-certificates \
     pcre \
-    tini
+    tini \
+    bash
 
 WORKDIR /nitter
 
