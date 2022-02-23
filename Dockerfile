@@ -38,7 +38,7 @@ COPY ./nitter.conf /nitter/nitter.conf
 
 # Copy start script
 COPY ./start.sh /nitter/start.sh
-RUN chmod 777 /nitter/start.sh
+RUN chmod +x /nitter/start.sh
 
 # Add an unprivileged user and set directory permissions
 RUN adduser --disabled-password --gecos "" --no-create-home nitter \
